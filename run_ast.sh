@@ -1,5 +1,5 @@
 for filefolder in   "esc50" "speechcommands":
 do
-    cd ast/egs/$filefolder
-    bash run*.sh
+    cd  egs/$filefolder
+    nohup bash run*.sh  2>&1 | tee  run_ast.log
 done
