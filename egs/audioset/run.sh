@@ -10,11 +10,7 @@
 #SBATCH --job-name="ast_as"
 #SBATCH --output=./log_%j.txt
 
-set -x
-# comment this line if not running on sls cluster
-. /data/sls/scratch/share-201907/slstoolchainrc
-source ../../venvast/bin/activate
-export TORCH_HOME=../../pretrained_models
+
 
 model=ast
 dataset=audioset
@@ -42,11 +38,7 @@ fstride=10
 tstride=10
 batch_size=12
 exp_dir=./exp/test-${set}-f$fstride-t$tstride-p$imagenetpretrain-b$batch_size-lr${lr}-demo
-if [ -d $exp_dir ]; then
-  echo 'exp exist'
-  exit
-fi
-mkdir -p $exp_dir
+
 
 CUDA_CACHE_DISABLE=1 python -W ignore ../../src/run.py --model ${model} --dataset ${dataset} \
 --data-train ${tr_data} --data-val ${te_data} --exp-dir $exp_dir \

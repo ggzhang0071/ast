@@ -10,4 +10,4 @@ docker run --gpus all  --privileged=true   --workdir /git --name "ast"  -e DISPL
  $img sleep infinity
 
 
-docker exec -it ast   /bin/bash
+docker exec -it ast /bin/bash

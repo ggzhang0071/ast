@@ -16,8 +16,10 @@ from torch import nn
 import numpy as np
 import pickle
 from torch.cuda.amp import autocast,GradScaler
+from torch.utils.tensorboard import SummaryWriter
 
 def train(audio_model, train_loader, test_loader, args):
+    writer = SummaryWriter(args.exp_dir + '/logs')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print('running on ' + str(device))
     torch.set_grad_enabled(True)
@@ -133,6 +135,7 @@ def train(audio_model, train_loader, test_loader, args):
             scaler.update()
 
             # record loss
+            writer.add_scalar('loss/train', loss.item(), epoch)
             loss_meter.update(loss.item(), B)
             batch_time.update(time.time() - end_time)
             per_sample_time.update((time.time() - end_time)/audio_input.shape[0])
@@ -159,6 +162,7 @@ def train(audio_model, train_loader, test_loader, args):
 
         print('start validation')
         stats, valid_loss = validate(audio_model, test_loader, args, epoch)
+        writer.add_scalar('loss/valid', valid_loss, epoch)
 
         # ensemble results
         cum_stats = validate_ensemble(args, epoch)

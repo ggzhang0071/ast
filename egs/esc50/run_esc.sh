@@ -44,7 +44,7 @@ do
   tr_data=/git/ast/egs/esc50/data/datafiles/esc_train_data_${fold}.json
   te_data=/git/ast/egs/esc50/data/datafiles/esc_eval_data_${fold}.json
 
-  CUDA_CACHE_DISABLE=1 nohup python -W ignore ../../src/run.py --model ${model} --dataset ${dataset} \
+  CUDA_CACHE_DISABLE=1  python  -W ignore -m  pdb  ../../src/run.py --model ${model} --dataset ${dataset} \
   --data-train ${tr_data} --data-val ${te_data} --exp-dir $exp_dir \
   --label-csv ./data/esc_class_labels_indices.csv --n_class 50 \
   --lr $lr --n-epochs ${epoch} --batch-size $batch_size --save_model False \
